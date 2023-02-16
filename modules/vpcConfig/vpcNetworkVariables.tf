@@ -23,7 +23,7 @@ variable "bits" {
   type = number
 }
 
-variable "vpc_name" {
+variable "vpc_resource_name" {
   type = string
 }
 

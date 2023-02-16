@@ -1,3 +1,3 @@
 environment        = "dev"
-region     = "us-east-1"
-cidr_block = "10.0.0.0/24"
+region             = "us-east-1"
+cidr_block         = "10.0.0.0/24"
