@@ -5,7 +5,7 @@ NEU ID : 002743674
 
 # Setup Virtual Private Network using terraforms
 
-Scope -->
+Scope --->
 
 
 1. Create Virtual Private Cloud (VPC)
