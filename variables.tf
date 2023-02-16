@@ -4,7 +4,6 @@ variable "region" {
   description = "Default region closer to the user"
 }
 
-
 variable "environment" {
   default     = "demo"
   type        = string
