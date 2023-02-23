@@ -1,7 +1,32 @@
+data "aws_ami" "amzLinux" {
+  most_recent = true
+  owners      = ["642376440760"]
+
+  filter {
+    name   = "name"
+    values = ["csye6225*"]
+  }
+
+  filter {
+    name   = "root-device-type"
+    values = ["ebs"]
+  }
+
+  filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
+  }
+}
+
+output "ami_id" {
+  value = data.aws_ami.amzLinux.id
+}
+
+
 resource "aws_instance" "app_server" {
   count = var.subnet_count
 
-  ami             = var.ami_id
+  ami             = data.aws_ami.amzLinux.id
   instance_type   = var.instance_type
   key_name        = var.ami_key_pair_name
   security_groups = ["${var.sec_id}"]

@@ -57,10 +57,6 @@ variable "ami_key_pair_name" {
   default = "ec2-test"
 }
 
-variable "ami_id" {
-  default = "ami-0cbb329976a8f18dc"
-}
-
 variable "instance_type" {
   default = "t2.micro"
 }
