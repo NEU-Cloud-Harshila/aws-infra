@@ -20,7 +20,7 @@ variable "vpc_instance_tenancy" {
 }
 
 variable "subnet_count" {
-  default = 3
+  default = 1
 }
 
 variable "subnet_bits" {
