@@ -22,19 +22,19 @@ module "vpc_configuration" {
 module "sec_group_setup" {
   source = "./modules/securityGroup"
 
-  vpc_id = "${module.vpc_configuration.vpc_id}"
+  vpc_id   = module.vpc_configuration.vpc_id
   app_port = var.app_port
 }
 
 module "instance_create" {
   source = "./modules/instanceCreate"
 
-  ami_id = var.ami_id
-  sec_id = "${module.sec_group_setup.sec_group_id}"
+  ami_id            = var.ami_id
+  sec_id            = module.sec_group_setup.sec_group_id
   ami_key_pair_name = var.ami_key_pair_name
-  subnet_count = var.subnet_count
-  subnet_ids = "${module.vpc_configuration.subnet_ids}"
-  volume_size=var.volume_size
-  instance_type = "${var.instance_type}"
-  volume_type="${var.volume_type}"
+  subnet_count      = var.subnet_count
+  subnet_ids        = module.vpc_configuration.subnet_ids
+  volume_size       = var.volume_size
+  instance_type     = var.instance_type
+  volume_type       = var.volume_type
 }
