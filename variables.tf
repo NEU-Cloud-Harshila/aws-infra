@@ -50,3 +50,29 @@ variable "vpc_private_subnet_name" {
 variable "vpc_private_routetable_name" {
   default = "PrivateRouteTablevpc1"
 }
+
+# Instance creation config.
+
+variable "ami_key_pair_name" {
+  default = "ec2-test"
+}
+
+variable "ami_id" {
+  default = "ami-0cbb329976a8f18dc"
+}
+
+variable "instance_type" {
+  default = "t2.micro"
+}
+
+variable "volume_type" {
+  default = "gp2"
+}
+
+variable "volume_size" {
+  default = 50
+}
+
+variable "app_port" {
+  default = 1700
+}
