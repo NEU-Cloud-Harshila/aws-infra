@@ -29,7 +29,6 @@ module "sec_group_setup" {
 module "instance_create" {
   source = "./modules/instanceCreate"
 
-  ami_id            = var.ami_id
   sec_id            = module.sec_group_setup.sec_group_id
   ami_key_pair_name = var.ami_key_pair_name
   subnet_count      = var.subnet_count

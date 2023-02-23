@@ -1,7 +1,3 @@
-variable "ami_id" {
-  type = string
-}
-
 variable "sec_id" {
   type = string
 }
