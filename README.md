@@ -28,6 +28,45 @@ NEU ID : 002743674
 6. Security Group created above by terraform
 7. VPC created above by terraform
 
+# DB Security Group
+
+1 . Create an EC2 security group for your RDS instances.
+
+2. Add ingress rule to allow TCP traffic on the port 3306 for MySQL
+
+3. The Source of the traffic should be the application security group. 
+
+4. Restrict access to the instance from the internet.
+This security group will be referred to as the database security group.
+
+
+S3 Bucket 
+
+1. Private random generated S3 Bucket
+
+2. Make sure Terraform can delete the bucket even if it is not empty.
+
+3. To delete all objects from the bucket manually use the CLI before you delete the bucket you can use the following AWS CLI command that may work for removing all objects from the bucket. aws s3 rm s3://bucket-name --recursive. 
+4. Enable default encryption for S3 BucketsLinks to an external site..
+Create a lifecycle policy for the bucket to transition objects from STANDARD storage class to STANDARD_IA storage class after 30 days.
+
+RDS Instance
+WARNING: Setting Public accessibility to true will expose your instance to the internet.
+
+Your RDS instance should be created with the following configuration. You may use default values/settings for any property not mentioned below.
+
+Property	Value
+Database Engine	MySQL/PostgreSQL
+DB Instance Class	db.t3.micro
+Multi-AZ deployment	No
+DB instance identifier	csye6225
+Master username	csye6225
+Master password	pick a strong password
+Subnet group	Private subnet for RDS instances
+Public accessibility	No
+Database name	csye6225
+Database security group should be attached to this RDS instance.
+
 # Autorun has been setup using Systemd
 
 reboot the instance and check again

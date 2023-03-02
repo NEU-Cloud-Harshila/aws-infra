@@ -53,7 +53,7 @@ variable "ami_key_pair_name" {
 }
 
 variable "ami_id" {
-  default = "ami-0e23837f69f411dae"
+  default = "ami-06663c90067c3f3a0"
 }
 
 variable "instance_type" {
