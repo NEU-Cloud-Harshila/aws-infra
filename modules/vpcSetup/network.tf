@@ -3,14 +3,13 @@ resource "aws_vpc" "vpc" {
   instance_tenancy     = var.instance_tenancy
   enable_dns_hostnames = true
   tags = {
-    Name = "${var.vpc_resource_name}"
+    Name = "${var.vpc_name}"
   }
 }
 
 output "vpc_id" {
   value = aws_vpc.vpc.id
 }
-
 
 resource "aws_internet_gateway" "internet-gateway" {
   vpc_id = aws_vpc.vpc.id
@@ -20,7 +19,7 @@ resource "aws_internet_gateway" "internet-gateway" {
   }
 }
 
-//-------Public Subnet------//
+//-----------Public Subnet----------------
 
 resource "aws_subnet" "public-subnet" {
   count                   = var.subnet_count
@@ -47,7 +46,7 @@ resource "aws_route_table" "public-route-table" {
   }
 
   tags = {
-    Name = "${var.public_routetable_name}"
+    Name = "${var.public_rt_name}"
   }
 }
 
@@ -57,7 +56,7 @@ resource "aws_route_table_association" "public-subnet-route-table-association" {
   route_table_id = aws_route_table.public-route-table.id
 }
 
-//------Private Subnet-------//
+//-----------Private Subnet----------------
 
 resource "aws_subnet" "private-subnet" {
   count                   = var.subnet_count
@@ -71,11 +70,15 @@ resource "aws_subnet" "private-subnet" {
   }
 }
 
+output "private_subnet_ids" {
+  value = aws_subnet.private-subnet.*.id
+}
+
 resource "aws_route_table" "private-route-table" {
   vpc_id = aws_vpc.vpc.id
 
   tags = {
-    Name = "${var.private_routetable_name}"
+    Name = "${var.private_rt_name}"
   }
 }
 
