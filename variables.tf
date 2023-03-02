@@ -1,18 +1,13 @@
 variable "region" {
-  default     = "us-east-1"
-  type        = string
-  description = "Default region closer to the user"
+  default = "us-east-1"
 }
 
 variable "environment" {
-  default     = "demo"
-  type        = string
-  description = "AWS environment demo or dev"
+  default = "demo"
 }
 
 variable "vpc_cidr_block" {
   default = "10.0.0.0/16"
-  type    = string
 }
 
 variable "vpc_instance_tenancy" {
@@ -20,41 +15,45 @@ variable "vpc_instance_tenancy" {
 }
 
 variable "subnet_count" {
-  default = 1
+  default = 3
 }
 
 variable "subnet_bits" {
   default = 8
 }
 
-variable "vpc_resource_name" {
+variable "vpc_name" {
   default = "vpc1"
 }
 
 variable "vpc_internet_gateway_name" {
-  default = "IGWvpc1"
+  default = "vpc1IG"
 }
 
 variable "vpc_public_subnet_name" {
-  default = "PublicSubnetvpc1"
+  default = "vpc1PublicSubnet"
 }
 
-variable "vpc_public_routetable_name" {
-  default = "PublicRouteTablevpc1"
+variable "vpc_public_rt_name" {
+  default = "vpc1PublicRT"
 }
 
 variable "vpc_private_subnet_name" {
-  default = "PrivateSubnetvpc1"
+  default = "vpc1PrivateSubnet"
 }
 
-variable "vpc_private_routetable_name" {
-  default = "PrivateRouteTablevpc1"
+variable "vpc_private_rt_name" {
+  default = "vpc1PrivateRT"
 }
 
 # Instance creation config.
 
 variable "ami_key_pair_name" {
-  default = "ec2-test"
+  default = "ec2"
+}
+
+variable "ami_id" {
+  default = "ami-0e23837f69f411dae"
 }
 
 variable "instance_type" {
@@ -70,5 +69,28 @@ variable "volume_size" {
 }
 
 variable "app_port" {
-  default = 1700
+  default = 3000
+}
+
+//RDS
+
+variable "username" {
+  default = "csye6225"
+}
+variable "password" {
+  default = "hello12345"
+}
+variable "engine_version" {
+  default = "8.0"
+}
+
+variable "identifier" {
+  default = "csye6225"
+}
+variable "db_name" {
+  default = "csye6225"
+}
+
+variable "db_port" {
+  default = 3306
 }
