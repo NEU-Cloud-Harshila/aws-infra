@@ -1,4 +1,4 @@
-# Assignment 5
+# Assignment 6
 
 Harshila Jagtap
 NEU ID : 002743674
@@ -66,6 +66,10 @@ Subnet group	Private subnet for RDS instances
 Public accessibility	No
 Database name	csye6225
 Database security group should be attached to this RDS instance.
+
+
+Created Route53 using the Terraform template.
+The Terraform template  add/update A record to the Route53 zone so that the domain points to the EC2 instance and the web application is accessible
 
 # Autorun has been setup using Systemd
 

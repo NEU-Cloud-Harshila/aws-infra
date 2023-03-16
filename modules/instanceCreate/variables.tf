@@ -1,4 +1,8 @@
-variable "ami_id" {
+variable "zone_id" {
+  type = string
+}
+
+variable "record_creation_name" {
   type = string
 }
 

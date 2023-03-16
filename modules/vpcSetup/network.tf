@@ -19,8 +19,6 @@ resource "aws_internet_gateway" "internet-gateway" {
   }
 }
 
-//-----------Public Subnet----------------
-
 resource "aws_subnet" "public-subnet" {
   count                   = var.subnet_count
   vpc_id                  = aws_vpc.vpc.id
@@ -55,8 +53,6 @@ resource "aws_route_table_association" "public-subnet-route-table-association" {
   subnet_id      = aws_subnet.public-subnet[count.index].id
   route_table_id = aws_route_table.public-route-table.id
 }
-
-//-----------Private Subnet----------------
 
 resource "aws_subnet" "private-subnet" {
   count                   = var.subnet_count

@@ -59,20 +59,21 @@ module "s3_bucket" {
 module "instance_create" {
   source = "./modules/instanceCreate"
 
-  ami_id            = var.ami_id
-  sec_id            = module.sec_group_setup.sec_group_id
-  ami_key_pair_name = var.ami_key_pair_name
-  subnet_count      = var.subnet_count
-  subnet_ids        = module.vpc_setup.subnet_ids
-  volume_size       = var.volume_size
-  instance_type     = var.instance_type
-  volume_type       = var.volume_type
-  db_name           = var.db_name
-  username          = var.username
-  password          = var.password
-  host_name         = module.rds_instance.host_name
-  app_port          = var.app_port
-  db_port           = var.db_port
-  ec2_profile_name  = module.iam_role_setup.ec2_profile_name
-  s3_bucket         = module.s3_bucket.s3_bucket
+  sec_id               = module.sec_group_setup.sec_group_id
+  ami_key_pair_name    = var.ami_key_pair_name
+  subnet_count         = var.subnet_count
+  subnet_ids           = module.vpc_setup.subnet_ids
+  volume_size          = var.volume_size
+  instance_type        = var.instance_type
+  volume_type          = var.volume_type
+  db_name              = var.db_name
+  username             = var.username
+  password             = var.password
+  host_name            = module.rds_instance.host_name
+  app_port             = var.app_port
+  db_port              = var.db_port
+  ec2_profile_name     = module.iam_role_setup.ec2_profile_name
+  s3_bucket            = module.s3_bucket.s3_bucket
+  zone_id              = var.zone_id
+  record_creation_name = var.record_creation_name
 }
