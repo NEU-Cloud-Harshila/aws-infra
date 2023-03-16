@@ -1,24 +1,24 @@
-data "aws_ami" "example"{
+data "aws_ami" "example" {
   most_recent = true
-  owners = ["642376440760"]
+  owners      = ["642376440760"]
 
-  filter{
-    name = "name"
+  filter {
+    name   = "name"
     values = ["csye6225*"]
   }
 
-  filter{
-    name = "root-device-type"
+  filter {
+    name   = "root-device-type"
     values = ["ebs"]
   }
 
-  filter{
-    name = "virtualization-type"
+  filter {
+    name   = "virtualization-type"
     values = ["hvm"]
   }
 }
 
-output ami_id{
+output "ami_id" {
   value = data.aws_ami.example.id
 }
 
