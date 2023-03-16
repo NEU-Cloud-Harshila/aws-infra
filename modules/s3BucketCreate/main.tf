@@ -24,6 +24,16 @@ resource "aws_s3_bucket_public_access_block" "my_bucket_public_access_block" {
   restrict_public_buckets = true
 }
 
+resource "aws_s3_bucket_server_side_encryption_configuration" "s3encrypt" {
+  bucket = aws_s3_bucket.s3_bucket.id
+
+  rule {
+    apply_server_side_encryption_by_default {
+      sse_algorithm = "AES256"
+    }
+  }
+}
+
 resource "aws_s3_bucket_lifecycle_configuration" "bucket-config" {
 
   depends_on = [aws_s3_bucket.s3_bucket]
@@ -37,16 +47,6 @@ resource "aws_s3_bucket_lifecycle_configuration" "bucket-config" {
     transition {
       days          = 30
       storage_class = "STANDARD_IA"
-    }
-  }
-}
-
-resource "aws_s3_bucket_server_side_encryption_configuration" "s3encrypt" {
-  bucket = aws_s3_bucket.s3_bucket.id
-
-  rule {
-    apply_server_side_encryption_by_default {
-      sse_algorithm = "AES256"
     }
   }
 }

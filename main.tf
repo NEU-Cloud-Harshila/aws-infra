@@ -4,7 +4,7 @@ provider "aws" {
 }
 
 module "vpc_setup" {
-  source = "./modules/vpcSetup"
+  source = "./modules/vpcCreate"
 
   cidr_block            = var.vpc_cidr_block
   instance_tenancy      = var.vpc_instance_tenancy
@@ -19,21 +19,21 @@ module "vpc_setup" {
 }
 
 module "sec_group_setup" {
-  source = "./modules/securityGroup"
+  source = "./modules/securityGroupCreate"
 
   vpc_id   = module.vpc_setup.vpc_id
   app_port = var.app_port
 }
 
 module "db_sec_group_setup" {
-  source = "./modules/dbSecurityGroup"
+  source = "./modules/dbSecurityGroupCreate"
 
   vpc_id     = module.vpc_setup.vpc_id
   secGroupId = module.sec_group_setup.sec_group_id
 }
 
 module "rds_instance" {
-  source = "./modules/databaseInstance"
+  source = "./modules/dbInstance"
 
   username           = var.username
   password           = var.password
@@ -45,19 +45,19 @@ module "rds_instance" {
 }
 
 module "iam_role_setup" {
-  source = "./modules/iamRoleSetup"
+  source = "./modules/iamRoleCreate"
 
   s3_bucket = module.s3_bucket.s3_bucket
 }
 
 module "s3_bucket" {
-  source = "./modules/s3Bucket"
+  source = "./modules/s3BucketCreate"
 
   environment = var.environment
 }
 
 module "instance_create" {
-  source = "./modules/instanceCreate"
+  source = "./modules/ec2InstanceCreate"
 
   sec_id               = module.sec_group_setup.sec_group_id
   ami_key_pair_name    = var.ami_key_pair_name
