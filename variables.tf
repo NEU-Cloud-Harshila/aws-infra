@@ -46,14 +46,8 @@ variable "vpc_private_rt_name" {
   default = "vpc1PrivateRT"
 }
 
-# Instance creation config.
-
 variable "ami_key_pair_name" {
   default = "ec2-demo"
-}
-
-variable "ami_id" {
-  default = "ami-06663c90067c3f3a0"
 }
 
 variable "instance_type" {
@@ -71,8 +65,6 @@ variable "volume_size" {
 variable "app_port" {
   default = 3000
 }
-
-//RDS
 
 variable "username" {
   default = "csye6225"
@@ -93,4 +85,12 @@ variable "db_name" {
 
 variable "db_port" {
   default = 3306
+}
+
+variable "zone_id" {
+  type = string
+}
+
+variable "record_creation_name" {
+  type = string
 }
