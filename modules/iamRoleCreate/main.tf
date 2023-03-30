@@ -43,15 +43,19 @@ resource "aws_iam_role" "iam_role" {
   }
 }
 
-resource "aws_iam_policy_attachment" "policy-attachment" {
-  name       = "policy-attachment"
-  roles      = [aws_iam_role.iam_role.name]
+resource "aws_iam_role_policy_attachment" "s3-policy" {
+  role       = aws_iam_role.iam_role.name
   policy_arn = aws_iam_policy.policy.arn
 }
 
 resource "aws_iam_instance_profile" "ec2_profile" {
   name = "ec2_profile"
   role = aws_iam_role.iam_role.name
+}
+
+resource "aws_iam_role_policy_attachment" "cloudwatch-sample" {
+  role       = aws_iam_role.iam_role.name
+  policy_arn = "arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy"
 }
 
 output "ec2_profile_name" {
