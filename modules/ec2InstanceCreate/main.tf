@@ -50,9 +50,17 @@ resource "aws_instance" "app_server" {
     echo PORT=${var.app_port} >> .env
     echo BUCKETNAME=${var.s3_bucket} >> .env
 
+    sudo chown -R root:ec2-user /var/log
+    sudo chmod -R 770 -R /var/log
     sudo systemctl daemon-reload
     sudo systemctl start webapp.service
-    sudo systemctl enable webapp.service 
+    sudo systemctl enable webapp.service  
+      
+    sudo ../../../opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl \
+      -a fetch-config \
+      -m ec2 \
+      -c file:packer/cloudwatch-config.json \
+      -s 
 
   EOF
 
