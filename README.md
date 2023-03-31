@@ -1,4 +1,4 @@
-# Assignment 6
+# Assignment 7
 
 Harshila Jagtap
 NEU ID : 002743674
@@ -70,6 +70,9 @@ Database security group should be attached to this RDS instance.
 
 Created Route53 using the Terraform template.
 The Terraform template  add/update A record to the Route53 zone so that the domain points to the EC2 instance and the web application is accessible
+
+
+Added CloudWatch Logs resources to monitor logs and metrics.
 
 # Autorun has been setup using Systemd
 
