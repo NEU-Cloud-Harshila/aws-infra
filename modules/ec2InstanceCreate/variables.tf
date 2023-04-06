@@ -14,6 +14,18 @@ variable "ami_key_pair_name" {
   type = string
 }
 
+variable "application_load_balancer_dns_name" {
+  type = string
+}
+variable "application_load_balancer_zone_id" {
+  type = string
+}
+variable "aws_lb_target_group_arn" {
+  type = string
+}
+variable "sec_group_application" {
+}
+
 variable "subnet_count" {
   type = number
 }

@@ -1,4 +1,4 @@
-# Assignment 7
+# Assignment 8
 
 Harshila Jagtap
 NEU ID : 002743674
@@ -73,6 +73,36 @@ The Terraform template  add/update A record to the Route53 zone so that the doma
 
 
 Added CloudWatch Logs resources to monitor logs and metrics.
+
+Security Group for Load Balancers
+Ensure that the Security Group for Load Balancers does not exist before the infrastructure is created by the Terraform template as part of the application stack.
+Verify that it only opens the required ports (80,443) and no other ports.
+Security Group Updates for Application Servers
+Ensure that the Security Group for Application Servers does not exist before the infrastructure is created by the Terraform template.
+Verify that it only opens required ports and that the ingress source is set to the load balancer security group.
+It should not allow traffic from the internet.
+Autoscaling & Load Balancer
+Using the Terraform template, create all AWS resources need to run your application. You must use the AMI you have built to launch the auto-scaling group.
+TAs must verify that no resources exist in the default VPC.
+All IAM roles and policies must be created using the Terraform template.
+Students cannot make any changes to created resources using the AWS console.
+TAs do not have to look at specific roles or policies. 
+During the demo, note any feature of the web application that does not work as it will be an indication of IaC not being implemented correctly.
+Verify that the application can only be accessed from the load balancer.
+Direct EC2 instance access must not work.
+The web application's domain name should be a alias or CNAME for the load balancer hostname.
+Verify that the EC2 security group only allows traffic from the load balancer.
+The auto-scale group should have a minimum of 1 instance (any number greater than 0 is acceptable) running in the auto-scale group.
+Terminate all instances and wait for the auto scaler to replace them with new instances.
+Once the instances are up and running, validate that the web application is running and APIs work.
+Now students must run the JMeter tests or use some other means to put the load on their web application and demonstrate at least 1 new instance creation is triggered by the auto scaler.
+Bootstrapping Database
+When the application is started for the first time, it should create all the database objects it needs.
+Application Configuration
+The web application should configure itself from the env/properties file created by the userdata.
+No edits are allowed to the source code uploaded to the EC2 instance.
+No edits are allowed to the source code when it is built on a student’s laptop. Verify that the code has not been modified and matches the code on their master branch.
+
 
 # Autorun has been setup using Systemd
 
