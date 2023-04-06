@@ -21,8 +21,8 @@ module "vpc_setup" {
 module "sec_group_setup" {
   source = "./modules/securityGroupCreate"
 
-  vpc_id   = module.vpc_setup.vpc_id
-  app_port = var.app_port
+  vpc_id          = module.vpc_setup.vpc_id
+  app_port        = var.app_port
   sec_group_id_lb = module.loadbalancer.sec_group_id_lb
 }
 
