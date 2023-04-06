@@ -1,9 +1,9 @@
 resource "aws_lb" "application_load_balancer" {
-  name                       = "app-load-balancer-c"
+  name                       = "app-load-balancer-lb"
   internal                   = false
   load_balancer_type         = "application"
   security_groups            = [aws_security_group.loadbalancer_sg.id]
-  subnets                    = var.subnet_ids //public subnets az1 from vpc module take the ids from that output folders
+  subnets                    = var.subnet_ids
   enable_deletion_protection = false
 }
 
