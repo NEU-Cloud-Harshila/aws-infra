@@ -14,3 +14,7 @@ variable "app_port" {
   type    = number
   default = 3000
 }
+
+variable "record_creation_name" {
+  type = string
+}

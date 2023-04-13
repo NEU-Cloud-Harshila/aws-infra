@@ -22,7 +22,6 @@ resource "aws_lb_target_group" "alb_target_group" {
     healthy_threshold   = 2
     unhealthy_threshold = 2
     port                = var.app_port
-
   }
 
   lifecycle {
@@ -32,11 +31,17 @@ resource "aws_lb_target_group" "alb_target_group" {
 
 resource "aws_lb_listener" "alb_http_listener" {
   load_balancer_arn = aws_lb.application_load_balancer.arn
-  port              = 80
-  protocol          = "HTTP"
+  port              = 443
+  certificate_arn   = data.aws_acm_certificate.app_certificate.arn
+  protocol          = "HTTPS"
 
   default_action {
     type             = "forward"
     target_group_arn = aws_lb_target_group.alb_target_group.arn
   }
+}
+
+data "aws_acm_certificate" "app_certificate" {
+  domain   = var.record_creation_name
+  statuses = ["ISSUED"]
 }
