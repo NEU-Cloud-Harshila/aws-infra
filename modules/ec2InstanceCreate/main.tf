@@ -71,6 +71,7 @@ resource "aws_launch_template" "app_server" {
   depends_on = [
     var.sec_group_application
   ]
+  name          = "launch_configuration"
   image_id      = data.aws_ami.example.id
   instance_type = var.instance_type
   key_name      = var.ami_key_pair_name
@@ -91,6 +92,8 @@ resource "aws_launch_template" "app_server" {
   block_device_mappings {
     device_name = "/dev/xvda"
     ebs {
+      encrypted   = true
+      kms_key_id  = aws_kms_key.webapp-kms-ec2.arn
       volume_size = var.volume_size
       volume_type = var.volume_type
     }
@@ -100,7 +103,7 @@ resource "aws_launch_template" "app_server" {
 }
 
 resource "aws_autoscaling_group" "app_autoscaling_group" {
-  name                = "csye6225-asg"
+  name                = "csye6225-auto-scale-group"
   default_cooldown    = 60
   min_size            = 1
   max_size            = 3
@@ -113,7 +116,7 @@ resource "aws_autoscaling_group" "app_autoscaling_group" {
   health_check_type = "EC2"
   tag {
     key                 = "webapp"
-    value               = "webappInstance"
+    value               = "webappEC2Instance"
     propagate_at_launch = true
   }
   target_group_arns = [var.aws_lb_target_group_arn]
@@ -149,11 +152,9 @@ resource "aws_cloudwatch_metric_alarm" "scaleUpAlarm" {
   period              = 60
   statistic           = "Average"
   threshold           = 4
-
   dimensions = {
     AutoScalingGroupName = aws_autoscaling_group.app_autoscaling_group.name
   }
-
   alarm_description = "Scale up to 4%"
   alarm_actions     = [aws_autoscaling_policy.scaleUpPolicy.arn]
 }
@@ -167,11 +168,9 @@ resource "aws_cloudwatch_metric_alarm" "scaleDownAlarm" {
   period              = 60
   statistic           = "Average"
   threshold           = 2
-
   dimensions = {
     AutoScalingGroupName = aws_autoscaling_group.app_autoscaling_group.name
   }
-
   alarm_description = "Scale down to 2%"
   alarm_actions     = [aws_autoscaling_policy.scaleDownPolicy.arn]
 }
@@ -190,4 +189,94 @@ resource "aws_route53_record" "record_creation" {
     name                   = var.application_load_balancer_dns_name
     zone_id                = var.application_load_balancer_zone_id
   }
+}
+
+data "aws_caller_identity" "current" {}
+
+resource "aws_kms_key" "webapp-kms-ec2" {
+  description              = " Encryption key for instance"
+  key_usage                = "ENCRYPT_DECRYPT"
+  customer_master_key_spec = "SYMMETRIC_DEFAULT"
+  deletion_window_in_days  = 7
+  policy = jsonencode({
+    "Id" : "key-consolepolicy-3",
+    "Version" : "2012-10-17",
+    "Statement" : [
+      {
+        "Sid" : "Enable IAM User Permissions",
+        "Effect" : "Allow",
+        "Principal" : {
+          "AWS" : "arn:aws:iam::${data.aws_caller_identity.current.account_id}:root"
+        },
+        "Action" : "kms:*",
+        "Resource" : "*"
+      },
+      {
+        "Sid" : "Allow access for Key Administrators",
+        "Effect" : "Allow",
+        "Principal" : {
+          "AWS" : [
+            "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/aws-service-role/elasticloadbalancing.amazonaws.com/AWSServiceRoleForElasticLoadBalancing",
+            "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/aws-service-role/autoscaling.amazonaws.com/AWSServiceRoleForAutoScaling"
+          ]
+        },
+        "Action" : [
+          "kms:Create*",
+          "kms:Describe*",
+          "kms:Enable*",
+          "kms:List*",
+          "kms:Put*",
+          "kms:Update*",
+          "kms:Revoke*",
+          "kms:Disable*",
+          "kms:Get*",
+          "kms:Delete*",
+          "kms:TagResource",
+          "kms:UntagResource",
+          "kms:ScheduleKeyDeletion",
+          "kms:CancelKeyDeletion"
+        ],
+        "Resource" : "*"
+      },
+      {
+        "Sid" : "Allow use of the key",
+        "Effect" : "Allow",
+        "Principal" : {
+          "AWS" : [
+            "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/aws-service-role/elasticloadbalancing.amazonaws.com/AWSServiceRoleForElasticLoadBalancing",
+            "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/aws-service-role/autoscaling.amazonaws.com/AWSServiceRoleForAutoScaling"
+          ]
+        },
+        "Action" : [
+          "kms:Encrypt",
+          "kms:Decrypt",
+          "kms:ReEncrypt*",
+          "kms:GenerateDataKey*",
+          "kms:DescribeKey"
+        ],
+        "Resource" : "*"
+      },
+      {
+        "Sid" : "Allow attachment of persistent resources",
+        "Effect" : "Allow",
+        "Principal" : {
+          "AWS" : [
+            "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/aws-service-role/elasticloadbalancing.amazonaws.com/AWSServiceRoleForElasticLoadBalancing",
+            "arn:aws:iam::${data.aws_caller_identity.current.account_id}:role/aws-service-role/autoscaling.amazonaws.com/AWSServiceRoleForAutoScaling"
+          ]
+        },
+        "Action" : [
+          "kms:CreateGrant",
+          "kms:ListGrants",
+          "kms:RevokeGrant"
+        ],
+        "Resource" : "*",
+        "Condition" : {
+          "Bool" : {
+            "kms:GrantIsForAWSResource" : "true"
+          }
+        }
+      }
+    ]
+  })
 }

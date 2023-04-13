@@ -86,7 +86,8 @@ module "instance_create" {
 module "loadbalancer" {
   source = "./modules/loadBalancerSetUp"
 
-  vpc_id     = module.vpc_setup.vpc_id
-  subnet_ids = module.vpc_setup.subnet_ids
+  vpc_id               = module.vpc_setup.vpc_id
+  subnet_ids           = module.vpc_setup.subnet_ids
+  record_creation_name = var.record_creation_name
 
 }
