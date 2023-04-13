@@ -1,4 +1,4 @@
-# Assignment 8
+# Assignment 9
 
 Harshila Jagtap
 NEU ID : 002743674
@@ -40,7 +40,7 @@ NEU ID : 002743674
 This security group will be referred to as the database security group.
 
 
-S3 Bucket 
+# S3 Bucket 
 
 1. Private random generated S3 Bucket
 
@@ -83,11 +83,7 @@ Verify that it only opens required ports and that the ingress source is set to t
 It should not allow traffic from the internet.
 Autoscaling & Load Balancer
 Using the Terraform template, create all AWS resources need to run your application. You must use the AMI you have built to launch the auto-scaling group.
-TAs must verify that no resources exist in the default VPC.
 All IAM roles and policies must be created using the Terraform template.
-Students cannot make any changes to created resources using the AWS console.
-TAs do not have to look at specific roles or policies. 
-During the demo, note any feature of the web application that does not work as it will be an indication of IaC not being implemented correctly.
 Verify that the application can only be accessed from the load balancer.
 Direct EC2 instance access must not work.
 The web application's domain name should be a alias or CNAME for the load balancer hostname.
@@ -95,24 +91,33 @@ Verify that the EC2 security group only allows traffic from the load balancer.
 The auto-scale group should have a minimum of 1 instance (any number greater than 0 is acceptable) running in the auto-scale group.
 Terminate all instances and wait for the auto scaler to replace them with new instances.
 Once the instances are up and running, validate that the web application is running and APIs work.
-Now students must run the JMeter tests or use some other means to put the load on their web application and demonstrate at least 1 new instance creation is triggered by the auto scaler.
 Bootstrapping Database
 When the application is started for the first time, it should create all the database objects it needs.
-Application Configuration
-The web application should configure itself from the env/properties file created by the userdata.
-No edits are allowed to the source code uploaded to the EC2 instance.
-No edits are allowed to the source code when it is built on a student’s laptop. Verify that the code has not been modified and matches the code on their master branch.
-
 
 # Autorun has been setup using Systemd
 
 reboot the instance and check again
+
+# Encrypted EBS Volumes
+
+All EC2 instances will be launched with encrypted EBS volumes.
+EBS volumes must be encrypted with Customer managed key created as part of your Terraform template.
+
+# Encrypted RDS Instances
+RDS instances launched should be encrypted with (a separate) Customer managed key created as part of your Terraform template. The encryption key must not be shared with other resources.
 
 # Pre-requisite Installed : 
 
 AWS CLI >= 3.15
 Terraform >= 0.12.26
 Visual Studio Code
+SSL Certificate
+
+
+# Command to import the certificate
+
+aws acm import-certificate --certificate fileb:///Users/harshilajagtap/Downloads/demo.harshila.me/demo.harshila.me.crt --certificate-chain fileb:///Users/harshilajagtap/Downloads/demo.harshila.me/demo.harshila.me.ca-bundle --private-key fileb:///Users/harshilajagtap/Downloads/demo.harshila.me/private.pem --profile demo --region us-east-1
+
 
 # Providers
 

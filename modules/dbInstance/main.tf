@@ -39,7 +39,7 @@ output "host_name" {
 data "aws_caller_identity" "current" {}
 
 resource "aws_kms_key" "webapp-kms-rds" {
-  description              = "encryption key for RDS"
+  description              = "RDS instance encryption key"
   key_usage                = "ENCRYPT_DECRYPT"
   customer_master_key_spec = "SYMMETRIC_DEFAULT"
   deletion_window_in_days  = 7

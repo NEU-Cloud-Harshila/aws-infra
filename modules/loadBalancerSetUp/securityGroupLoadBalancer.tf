@@ -1,5 +1,5 @@
 resource "aws_security_group" "loadbalancer_sg" {
-  name_prefix = "lb_sg"
+  name_prefix = "load_balancer_sec_group"
   description = "Allow access to application"
   vpc_id      = var.vpc_id
 
