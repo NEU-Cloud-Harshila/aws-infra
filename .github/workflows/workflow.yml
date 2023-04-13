@@ -10,14 +10,14 @@ jobs:
     name: Lint
     runs-on: ubuntu-20.04
     steps:
-      - name: Check out code
+      - name: Code Checkout
         uses: actions/checkout@v2
 
-      - name: Setting up Terraform
+      - name: Set Up Terraform
         uses: hashicorp/setup-terraform@v1
         with:
           terraform_version: 1.0.9
 
-      - name: Run terraform fmt check
+      - name: Terraform format check
         run: terraform fmt -check -diff -recursive
         

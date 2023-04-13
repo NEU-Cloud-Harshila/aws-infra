@@ -1,7 +1,3 @@
-variable "project_name" {
-  default = "awsLB"
-}
-
 variable "vpc_id" {
   type = string
 }

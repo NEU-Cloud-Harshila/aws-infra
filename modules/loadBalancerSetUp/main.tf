@@ -8,7 +8,7 @@ resource "aws_lb" "application_load_balancer" {
 }
 
 resource "aws_lb_target_group" "alb_target_group" {
-  name     = "webapp-tg"
+  name     = "webapp-lb-tg"
   port     = var.app_port
   protocol = "HTTP"
   vpc_id   = var.vpc_id

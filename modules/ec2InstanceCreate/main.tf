@@ -123,7 +123,7 @@ resource "aws_autoscaling_group" "app_autoscaling_group" {
 }
 
 resource "aws_autoscaling_policy" "scaleUpPolicy" {
-  name                    = "Up policy"
+  name                    = "Scale Up policy"
   policy_type             = "SimpleScaling"
   scaling_adjustment      = 1
   adjustment_type         = "ChangeInCapacity"
@@ -133,18 +133,17 @@ resource "aws_autoscaling_policy" "scaleUpPolicy" {
 }
 
 resource "aws_autoscaling_policy" "scaleDownPolicy" {
-  name                    = "Down policy"
+  name                    = "Scale Down policy"
   policy_type             = "SimpleScaling"
   scaling_adjustment      = -1
   adjustment_type         = "ChangeInCapacity"
   cooldown                = 60
   autoscaling_group_name  = aws_autoscaling_group.app_autoscaling_group.name
   metric_aggregation_type = "Average"
-
 }
 
 resource "aws_cloudwatch_metric_alarm" "scaleUpAlarm" {
-  alarm_name          = "ASG_Scale_Up"
+  alarm_name          = "Webapp_ASG_Scale_Up"
   comparison_operator = "GreaterThanThreshold"
   evaluation_periods  = 1
   metric_name         = "CPUUtilization"
@@ -160,7 +159,7 @@ resource "aws_cloudwatch_metric_alarm" "scaleUpAlarm" {
 }
 
 resource "aws_cloudwatch_metric_alarm" "scaleDownAlarm" {
-  alarm_name          = "ASG_Scale_Down"
+  alarm_name          = "Webapp_ASG_Scale_Down"
   comparison_operator = "LessThanThreshold"
   evaluation_periods  = 2
   metric_name         = "cpu usage"
